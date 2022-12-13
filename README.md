@@ -1,0 +1,1 @@
+# rails-6-basic-configuration
