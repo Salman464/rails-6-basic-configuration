@@ -1,0 +1,58 @@
+<div class=form>
+    <%= form_with(model: user, local: true) do |f| %>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.label :first_name,'First name' %><br>
+                <%= f.text_field :first_name, class:'form-control' %>
+            </div>
+
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.label :last_name,'Last name' %><br>
+                <%= f.text_field :last_name, class:'form-control' %>
+            </div>
+
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.label :email,'email' %><br>
+                <%= f.text_field :email, class:'form-control' %>
+            </div>
+
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.label :cnic,'CNIC' %><br>
+                <%= f.text_field :cnic, class:'form-control' %>
+            </div>
+
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.label :contact,'Contact no.' %><br>
+                <%= f.text_field :contact, class:'form-control' %>
+            </div>
+
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.label :dob,'Date of birth' %><br>
+                <%= f.date_field :dob, class:'form-control' %>
+            </div>
+
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.label :address,'Address' %><br>
+                <%= f.text_area :address, class:'form-control' %>
+            </div>
+
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.label :select_gender, "Select gender below" %><br><br>
+                <div class="d-flex col-sm-8 col-md-6 justify-content-between">    
+                    <div>
+                        <%= f.radio_button :gender, "Male" %>
+                        <%= f.label :gender_male, "Male", class:"form-check-label" %>
+                    </div>
+                    <div>
+                        <%= f.radio_button :gender, "Female" %>
+                        <%= f.label :gender_female, "Female", class:"form-check-label" %>
+                    </div>
+                    <div>
+                        <%= f.radio_button :gender, "Others" %>
+                        <%= f.label :gender_others, "Others", class:"form-check-label" %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>

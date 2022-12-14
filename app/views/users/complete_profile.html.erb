@@ -1,0 +1,24 @@
+<%= render 'navbar' %>
+<div class="container">
+    <!-- Basic information page -->
+    <div id="page-1" class="d-none">
+        <div class="cont text-center">
+            <h3>Complete profile</h3>
+            <progress class="" id="progress-bar" min="1" max="100" value="0"></progress>
+            <span class="first border-change"></span>
+            <span class="second"></span>
+            <span class="third"></span>
+            <span class="fourth"></span>
+        </div>
+        <%= render 'form',user:@user %>
+    </div>
+
+    <!-- Upload document page -->
+    <div id="page-2">
+        <%= render 'upload_document' %>
+    </div>
+
+    <!-- Verify email and phone page -->
+    <div id="page-3">
+    </div>
+</div>
