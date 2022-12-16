@@ -1,9 +1,40 @@
-<div class="d-flex flex-column">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 p-2">
-            
+<div class="">
+    <h3>Please provide these document</h3>
+    <div class="m-5">    
+        <div class='row'>
+            <div class="col-sm-12 col-md-2 p-2">
+                <%= f.label :profile_picture,'Profile picture' %><br>
+            </div>
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.file_field :profile_picture, class:'form-control' %>
+            </div>
         </div>
 
-        
-    </div>     
+        <div class='row'>
+            <div class="col-sm-12 col-md-2 p-2">
+                <%= f.label :cnic_picture,'Picture of your CNIC' %><br>
+            </div>
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.file_field :cnic_picture, class:'form-control' %>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class="col-sm-12 col-md-2 p-2">
+                <%= f.label :dob_file,'Birth cretificate' %><br>
+            </div>
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.file_field :dob_file, class:'form-control' %>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class="col-sm-12 col-md-2 p-2">
+                <%= f.label :domicile_file,'Domicile certificate' %><br>
+            </div>
+            <div class="col-sm-12 col-md-6 p-2">
+                <%= f.file_field :domicile_file, class:'form-control' %>
+            </div>
+        </div>
+    </div>       
 </div>
