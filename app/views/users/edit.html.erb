@@ -5,15 +5,8 @@
         <%= form_with(model: @user, local: true) do |f| %>
 
         <!-- Basic information page -->
-        <div id="page-1">
-            <div class="cont text-center">
-                <h3>Complete profile</h3>
-                <progress class="" id="progress-bar" min="1" max="100" value="0"></progress>
-                <span class="first border-change"></span>
-                <span class="second"></span>
-                <span class="third"></span>
-                <span class="fourth"></span>
-            </div>
+        <div id="page-1" class="">
+            
             <%= render 'form', f: f %>
             <div class="d-flex justify-content-end" id='nav_btns'>
                 <a id="next_btn" class="btn btn-primary float-right">Next page</a>
@@ -36,7 +29,7 @@
 
         <!-- Verify email and phone page -->
         <div id="page-3" class="d-none">
-            <%= render 'verify_email_phone' %>
+            <%= render 'verify_email_phone', user: @user %>
             
             <div class="row" id='nav_btns'>
                 <div class="col-6">
@@ -52,28 +45,7 @@
 
 </div>
 <script>
-    $("#next_btn").click(function () {
-        if ($("#page-2").hasClass('d-none')) {
-            console.log('2-true')
-            $("#page-2").removeClass('d-none')
-            $("#page-1").addClass('d-none')
-        }
-        else if($("#page-3").hasClass('d-none')) {
-            $("#page-3").removeClass('d-none')
-            $("#page-2").addClass('d-none')
-        }
-    })
-
-    $("#previous_btn").click(function () {
-        if ($("#page-2").hasClass('d-none')) {
-            $("#page-2").removeClass('d-none')
-            $("#page-3").addClass('d-none')
-        }
-        else if ($("#page-1").hasClass('d-none')) {
-            $("#page-1").removeClass('d-none')
-            $("#page-2").addClass('d-none')
-        }
-    })
+    
 </script>
 
 <%# <!-- MultiStep Form -->
