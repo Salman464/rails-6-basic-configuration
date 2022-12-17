@@ -1,4 +1,3 @@
-<%= render 'navbar' %>
 <div class="container">
 
     <div class=form>
@@ -9,7 +8,7 @@
             
             <%= render 'form', f: f %>
             <div class="d-flex justify-content-end" id='nav_btns'>
-                <a id="next_btn" class="btn btn-primary float-right">Next page</a>
+                <a id="next_btn" class="btn btn-primary float-right" onclick="goNext()">Next page</a>
             </div>
         </div>
 
@@ -19,21 +18,7 @@
 
             <div class="row" id='nav_btns'>
                 <div class="pull-left col-6">
-                    <a id="previous_btn" class="btn btn-primary">Previous page</a>
-                </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <a id="next_btn" class="btn btn-primary float-right">Next page</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Verify email and phone page -->
-        <div id="page-3" class="d-none">
-            <%= render 'verify_email_phone', user: @user %>
-            
-            <div class="row" id='nav_btns'>
-                <div class="col-6">
-                    <a id="previous_btn" class="btn btn-primary">Previous page</a>
+                    <a id="previous_btn" class="btn btn-primary" onclick="goBack()">Previous page</a>
                 </div>
                 <div class="col-6 d-flex justify-content-end">
                     <%=f.submit "Submit", class:'btn btn-primary'%>
@@ -42,10 +27,30 @@
         </div>
         <% end %>
     </div>
-
 </div>
+
 <script>
-    
+    function goNext(){
+        if ($("#page-2").hasClass('d-none')) {
+            $("#page-2").removeClass('d-none')
+            $("#page-1").addClass('d-none')
+        }
+        else if($("#page-3").hasClass('d-none')) {
+            $("#page-3").removeClass('d-none')
+            $("#page-2").addClass('d-none')
+        }
+    }
+
+    function goBack() {
+        if ($("#page-2").hasClass('d-none')) {
+            $("#page-2").removeClass('d-none')
+            $("#page-3").addClass('d-none')
+        }
+        else if ($("#page-1").hasClass('d-none')) {
+            $("#page-1").removeClass('d-none')
+            $("#page-2").addClass('d-none')
+        }
+    }
 </script>
 
 <%# <!-- MultiStep Form -->

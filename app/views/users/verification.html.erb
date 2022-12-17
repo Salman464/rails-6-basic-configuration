@@ -1,0 +1,16 @@
+<!-- Verify email and phone page -->
+
+<div class="container">
+    <div id="page-3">
+        <%= render 'verify_email_phone', user: @user %>
+        <label>Hello world!</label>
+        <div class="row" id='nav_btns'>
+            <div class="col-6">
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <%=link_to "Done", class:'btn btn-primary'%>
+            </div>
+        </div>
+    </div>
+</div>
+<% byebug %>
