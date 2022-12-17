@@ -11,9 +11,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :timeoutable, :confirmable
          
   validates :first_name, :cnic, :contact, :dob, :address, presence: true
-  validates :cnic, :contact, numericality: { only_integer: true }
+  validates :cnic, numericality: { only_integer: true }
   validates :cnic, :email, uniqueness: true
+  validates :contact, phone: true
   validate :must_be_valid_date
+
 
   def must_be_valid_date
     if dob >= Date.today

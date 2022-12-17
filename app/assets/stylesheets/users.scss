@@ -30,8 +30,9 @@
 }
 
 #center {
-    margin: 0;
+    margin: auto;
     position: absolute;
+    width: 90%;
     top: 50%;
     transform: translateY(-60%);
 }

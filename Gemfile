@@ -23,7 +23,8 @@ gem 'devise'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 #Verification of phone number
-gem 'authy'
+gem 'twilio-ruby'
+gem 'phonelib' #phone no validation
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 #font awesome for icons

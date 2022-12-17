@@ -1,3 +1,4 @@
+
 <div class="container">
     <div id="center">
         <div class="row">
@@ -9,7 +10,7 @@
                             <div class="col-8">
                                 <input type="email" value="<%= user.email %>" class="form-control" disabled>
                             </div>
-                            <% if !user.email_verified? %>
+                            <% if !ActiveModel::Type::Boolean.new.cast(user.email_verified) %>
                             <div class="col-4">
                                 <%= link_to "send code",send_verification_token_user_path, class:'btn btn-success' %>
                             </div>
@@ -22,7 +23,7 @@
 
                         </div><br>
 
-                        <% if !user.email_verified? %>
+                        <% if !ActiveModel::Type::Boolean.new.cast(user.email_verified) %>
                             <%= form_with url: verify_token_user_path, local: true do |form| %>
 
                                 <div class="row">
@@ -45,32 +46,46 @@
             </div>
 
             <div class="col-md-6 col-sm-12">
-                <form>
+                
                     <div class="mb-3">
-                        <label for="token_input" class="form-label">Verification code will be sent to your number</label>
+                        <label for="token_input" class="form-label">Verification code will be sent number below</label>
                         <div class="row">
                             <div class="col-8">
-                                <input type="email" value="<%= user.contact %>" class="form-control" disabled>
+                                <input type="number" value="<%= user.contact %>" class="form-control" disabled>
                             </div>
+                            <% if !ActiveModel::Type::Boolean.new.cast(user.number_verified) %>
                             <div class="col-4">
-                                <%= link_to "send code", "/users/send_verification_token",class:'btn btn-success' %>
+                                <%= link_to "send code",send_number_verification_token_user_path, class:'btn btn-success' %>
                             </div>
+
+                            <% else %>
+                            <div class="col-4">
+                                <label id='verified-tick'><%= icon('fa-solid', 'check', "Verified") %></label>
+                            </div>
+                            <% end %>
+
                         </div><br>
-                        <div class="row">
-                            <div class="col-2"></div>
-                            <div class="col-3">
-                            <label>Enter code here</label>
-                            </div>
-                            <div class="col-3">
-                                <input type="number" class="form-control">
-                            </div>
-                            <div class="col-4">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
-                        
+
+                        <% if !ActiveModel::Type::Boolean.new.cast(user.number_verified) %>
+                            <%= form_with url: verify_number_token_user_path, local: true do |form| %>
+
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-3">
+                                    <%= form.label :entry_number_token, "Enter code" %>
+                                    </div>
+                                    <div class="col-3">
+                                        <%= form.number_field :entry_number_token, class:'form-control' %>
+                                    </div>
+                                    <div class="col-4">
+                                    <%= form.submit "Verify", class:'btn btn-info' %>
+                                    </div>
+                                </div>
+                                
+                            <% end %>
+                        <% end %>
                     </div>
-                </form>
+                
             </div>
         </div>
 

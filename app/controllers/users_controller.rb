@@ -1,18 +1,17 @@
 class UsersController < ApplicationController
-	before_action :set_user, only: %i[ edit update send_verification_token verification_token]
+	before_action :set_user, only: %i[ edit update send_verification_token verify_token verification send_number_verification_token verify_number_token]
 
 	def edit
 		@user = User.find(params[:id])
 	end
 
 	def update
-		respond_to do |format|
-			if @user.update(user_params)
+		if @user.update(user_params)
+			flash.alert = "Updated user successfully."
+			redirect_to verification_user_path
 
-				format.html { redirect_to verification_user_path(@user), notice: "User was successfully updated." }
-			else
-				format.html { redirect_to edit_user_path, alert: @user.errors.full_messages.to_sentence }
-			end
+		else
+			redirect_to edit_user_path, alert: @user.errors.full_messages.to_sentence 
 		end
 	end
 
@@ -20,21 +19,43 @@ class UsersController < ApplicationController
         @token = rand(10000..99999)
         if VerificationMailer.verify_email(@user,@token).deliver_now
 			@user.update(verification_token:@token)
-            flash.alert = "Email sent successfully."
-			redirect_back(fallback_location: edit_user_path)
+            flash.alert = "Verfication code sent successfully."
+			redirect_back(fallback_location: verification_user_path)
         end
     end
 
-	def verification_token
-		if params[:entry_email_token] == @user.verification_token
+	def verify_token
+		if params[:entry_email_token].to_i == @user.verification_token
 			@user.update(email_verified:true)
 			flash.alert = "Email verified successfully."
-			redirect_back(fallback_location: edit_user_path)
+			redirect_back(fallback_location: verification_user_path)
 		else
 			flash.alert = "Incorrect verification code!."
-			redirect_back(fallback_location: edit_user_path)
+			redirect_back(fallback_location: verification_user_path)
 		end
+	end
 
+	def send_number_verification_token
+        @token = rand(10000..99999)
+        if TwilioClient.new.send_text(@user,@token)
+			@user.update(verification_token:@token)
+            flash.alert = "Verfication code sent successfully."
+			redirect_back(fallback_location: verification_user_path)
+        end
+    end
+
+	def verify_number_token
+		if params[:entry_number_token].to_i == @user.verification_token
+			@user.update(number_verified:true)
+			flash.alert = "Phone number verified successfully."
+			redirect_back(fallback_location: verification_user_path)
+		else
+			flash.alert = "Incorrect verification code!."
+			redirect_back(fallback_location: verification_user_path)
+		end
+	end
+
+	def verification
 	end
 
 	private
