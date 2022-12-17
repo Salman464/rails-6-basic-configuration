@@ -37,7 +37,8 @@ class UsersController < ApplicationController
 
 	def send_number_verification_token
         @token = rand(10000..99999)
-        if TwilioClient.new.send_text(@user,@token)
+        #if TwilioClient.new.send_text(@user,@token)
+        if true
 			@user.update(verification_token:@token)
             flash.alert = "Verfication code sent successfully."
 			redirect_back(fallback_location: verification_user_path)
