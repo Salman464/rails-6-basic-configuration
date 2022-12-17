@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
-	before_action :set_user, only: %i[ edit update send_verification_token verify_token verification send_number_verification_token verify_number_token]
+	before_action :set_user, only: %i[edit update send_verification_token verify_token verification send_number_verification_token verify_number_token]	  
 
 	def edit
-		@user = User.find(params[:id])
 	end
 
 	def update
@@ -59,6 +58,9 @@ class UsersController < ApplicationController
 	def verification
 	end
 
+	def completed
+	end
+
 	private
 
 	def user_params
@@ -66,6 +68,6 @@ class UsersController < ApplicationController
 	end
 
 	def set_user
-		@user=User.find(params[:id])
+		@user=current_user
 	end
 end

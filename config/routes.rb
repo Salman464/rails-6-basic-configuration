@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
   
   resources :users do
     member do
@@ -7,10 +11,9 @@ Rails.application.routes.draw do
       post 'verify_token'
       post 'verify_number_token'
       get 'verification'
+      get 'completed'
     end
   end 
 
-  devise_for :users, controllers: {
-    sessions: 'users/sessions'
-  }
+  
 end
