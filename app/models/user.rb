@@ -1,5 +1,6 @@
 class User < ApplicationRecord
 
+  has_one :approval
   has_one_attached :profile_picture
   has_one_attached :cnic_picture
   has_one_attached :dob_file
@@ -23,10 +24,18 @@ class User < ApplicationRecord
       errors.add(:dob, "Date of Birth was not provided!")
       return false
     end
+
     if dob >= Date.today
       errors.add(:dob, "Invalid date of birth!(must be less than today)")
       return false
     end
     return true
   end
+
+  enum role: 
+  {
+    'non-supervisor': 0,
+    supervisor: 1
+  }
+
 end

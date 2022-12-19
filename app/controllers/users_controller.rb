@@ -1,30 +1,37 @@
 class UsersController < ApplicationController
-	before_action :set_user, only: %i[edit update send_verification_token verify_token verification send_number_verification_token verify_number_token]	  
+	before_action :authenticate_user!
+	before_action :set_user
+	before_action :set_tokenclient, except: %i[edit update] 
+	before_action :set_approval_application, only: %i[edit update completed check_existing_application]
+	before_action :check_existing_application, only: %i[edit verfication completed]
+
 
 	def edit
+		@approval_application.update(status:0)
 	end
 
 	def update
 		if @user.update(user_params)
 			flash.alert = "Updated user successfully."
+			@approval_application.update(status:1)
 			redirect_to verification_user_path
-
 		else
 			redirect_to edit_user_path, alert: @user.errors.full_messages.to_sentence 
 		end
 	end
 
 	def send_verification_token
-        @token = rand(10000..99999)
+        @token = @tokenclient.generate_token
+		
         if VerificationMailer.verify_email(@user,@token).deliver_now
-			@user.update(verification_token:@token)
+			@tokenclient.set_email_token(@user)
             flash.alert = "Verfication code sent successfully."
 			redirect_back(fallback_location: verification_user_path)
         end
     end
 
 	def verify_token
-		if params[:entry_email_token].to_i == @user.verification_token
+		if params[:entry_email_token].to_i == @user.email_verification_token
 			@user.update(email_verified:true)
 			flash.alert = "Email verified successfully."
 			redirect_back(fallback_location: verification_user_path)
@@ -35,17 +42,17 @@ class UsersController < ApplicationController
 	end
 
 	def send_number_verification_token
-        @token = rand(10000..99999)
-        #if TwilioClient.new.send_text(@user,@token)
+		@token = @tokenclient.generate_token
+        # if TwilioClient.new.send_text(@user,@token)
         if true
-			@user.update(verification_token:@token)
+			@tokenclient.set_contact_token(@user)
             flash.alert = "Verfication code sent successfully."
 			redirect_back(fallback_location: verification_user_path)
         end
     end
 
 	def verify_number_token
-		if params[:entry_number_token].to_i == @user.verification_token
+		if params[:entry_number_token].to_i == @user.contact_verification_token
 			@user.update(number_verified:true)
 			flash.alert = "Phone number verified successfully."
 			redirect_back(fallback_location: verification_user_path)
@@ -56,9 +63,12 @@ class UsersController < ApplicationController
 	end
 
 	def verification
+		#verfication page
 	end
 
 	def completed
+		#thankyou page
+		@approval_application.update(status:2)
 	end
 
 	private
@@ -69,5 +79,20 @@ class UsersController < ApplicationController
 
 	def set_user
 		@user=current_user
+	end
+
+	def set_tokenclient
+		@tokenclient = TokenClient.new
+	end
+
+	def set_approval_application
+		@approval_application = Approval.where(user_id:current_user.id).first_or_initialize(status:0)
+	end
+
+	def check_existing_application
+		if @approval_application.status == 'completed'
+			flash.alert = "You have already responded."
+			render "completed"
+		end
 	end
 end
