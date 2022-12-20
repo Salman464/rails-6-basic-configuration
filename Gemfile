@@ -22,10 +22,14 @@ gem 'jbuilder', '~> 2.7'
 gem 'devise'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+#Pagination
+gem 'kaminari'
 #Verification of phone number
 gem 'twilio-ruby'
 gem 'phonelib' #phone no validation
 # Use Active Storage variant
+gem 'rubocop'
+gem 'ransack'
 # gem 'image_processing', '~> 1.2'
 #font awesome for icons
 gem "font-awesome-sass", "~> 6.2.1"

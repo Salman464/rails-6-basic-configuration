@@ -55,4 +55,26 @@
     padding: 20px;
     border-radius: 20px;
     background-color: rgb(254, 254, 254);
+    margin-top: 7%;
+}
+
+#bt-border-field {
+    border: none;
+    border-bottom: 1px solid #1890ff;
+    padding: 5px 10px;
+    outline: none;
+}
+
+#status {
+    border: 1px solid transparent;
+    border-radius: 15px;
+    padding: 5px;
+    color: #fff;
+}
+
+#tb-status {
+    border: 1px solid transparent;
+    border-radius: 15px;
+    padding: 5px;
+    color: #fff;
 }

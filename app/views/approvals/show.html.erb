@@ -1,0 +1,106 @@
+<%= render 'users/navbar' %>
+<%= render 'layouts/alerts' %>
+<div class="card m-5">
+    <div class="card-header">
+        <h4>Application#<%= @approval.id %></h4>
+    </div>
+
+    <div class="m-2">
+        <h6>Status: <span id="status" class="<%= get_status_class(@approval.status) %>"><%= @approval.status %></span> <h6>
+    </div>
+
+    <div class="row px-5">
+        <div class="col-md-4 col-sm-5">
+            <strong>Application#:</strong>
+        </div>
+        <div class="col-md-4 col-sm-5" id="bt-border-field">
+            <%= @approval.id %>
+        </div>
+    </div>
+
+    <div class="row px-5">
+        <div class="col-md-4 col-sm-5">
+            <strong>Name:</strong>
+        </div>
+        <div class="col-md-4 col-sm-5" id="bt-border-field">
+            <%= @approval.first_name+' '+@approval.last_name %>
+        </div>
+    </div>
+
+    <div class="row px-5">
+        <div class="col-md-4 col-sm-5">
+            <strong>Email:</strong>
+        </div>
+        <div class="col-md-4 col-sm-5" id="bt-border-field">
+            <%= @approval.email %>
+        </div>
+    </div>
+
+    <div class="row px-5">
+        <div class="col-md-4 col-sm-5">
+            <strong>CNIC:</strong>
+        </div>
+        <div class="col-md-4 col-sm-5" id="bt-border-field">
+            <%= @approval.cnic %>
+        </div>
+    </div>
+
+    <div class="row px-5">
+        <div class="col-md-4 col-sm-5">
+            <strong>Date of birth:</strong>
+        </div>
+        <div class="col-md-4 col-sm-5" id="bt-border-field">
+            <%= format_date @approval.dob %>
+        </div>
+    </div>
+
+    <div class="row px-5">
+        <div class="col-md-4 col-sm-5">
+            <strong>Age:</strong>
+        </div>
+        <div class="col-md-4 col-sm-5" id="bt-border-field">
+            <%= get_age(@approval.dob) %>
+        </div>
+    </div>
+
+    <div class="row px-5">
+        <div class="col-md-4 col-sm-5">
+            <strong>Address:</strong>
+        </div>
+        <div class="col-md-4 col-sm-5" id="bt-border-field">
+            <%= @approval.email %>
+        </div>
+    </div>
+
+
+    <div class="row px-5">
+        <div class="col-md-4 col-sm-5">
+            <strong>Submited on:</strong>
+        </div>
+        <div class="col-md-4 col-sm-5" id="bt-border-field">
+            <%= format_date(@approval.updated_at) %>
+        </div>
+    </div>
+
+    <% if @approval.status == 'approved' %>
+    <div class="d-flex justify-content-end m-2">
+        <nav>
+            <%= link_to "Reject", reject_approval_path(@approval), method: :put, class:'btn btn-danger' %>
+        </nav>
+    </div>
+    <% elsif @approval.status == 'rejected'%>
+    <div class="d-flex justify-content-end m-2">
+        <nav>
+            <%= link_to "Approve", approve_approval_path(@approval),  method: :put, class:'btn btn-success' %>
+        </nav>
+    </div>
+    <% else %>
+    <div class="d-flex justify-content-end m-2">
+        <nav>
+            <%= link_to "Approve", approve_approval_path(@approval),  method: :put, class:'btn btn-success' %>
+            <%= link_to "Reject", reject_approval_path(@approval), method: :put, class:'btn btn-danger' %>
+        </nav>
+    </div>
+    <% end %>
+
+</div>

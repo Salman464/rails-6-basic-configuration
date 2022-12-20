@@ -3,7 +3,7 @@ class Approval < ApplicationRecord
 
     enum status: {
         started: 0,
-        pending_verification: 1,
+        pending: 1,
         completed: 2,
         approved: 3,
         rejected: 4

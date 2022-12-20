@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :approvals, only: [ :index, :show ] do
+    member do
+      put 'approve'
+      put 'reject'
+    end
+  end
   devise_for :users, controllers: {
     sessions: 'users/sessions'
   }

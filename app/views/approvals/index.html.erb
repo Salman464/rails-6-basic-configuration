@@ -1,0 +1,46 @@
+<%= render 'users/navbar' %>
+<%= render 'layouts/alerts' %>
+<div class="container">
+    
+    <div class="card mt-2">
+    <h3 class="card-header">Approval applications</h3>
+        <div class="d-flex justify-content-end m-1">
+            <%= search_form_for @q, url: approvals_path do |form| %>
+                <%= icon('fa-solid', 'search',class:'link-info')%>
+                <%= form.text_field :status_cont, placeholder:'Search...', id:'bt-border-field' %>
+                <%= form.submit "Search",class:' btn btn-sm btn-info' %>
+            <% end %>
+        </div>
+        <table class="table table-striped" id="table">
+            <thead>
+                <tr>
+                <th>Application#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Status</th>
+                <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                
+                <% @approvals.each do |approval| %>
+                <tr>
+                    <td><%= approval.id %></td>
+                    <td><%= approval.first_name+' '+approval.last_name %></td>
+                    <td><%= approval.email %></td>
+                    <td><%= approval.gender %></td>
+                    <td><span id="tb-status" class = <%= get_status_class(approval.status) %> ><%= approval.status %><span></td>
+                    <td><%= link_to 'view', approval ,class:'link-info'%></td>
+                </tr>
+                <% end %>
+            </tbody>
+            
+        </table>
+            <div class="d-flex justify-content-center">
+            <%= paginate @approvals %>
+            </div>
+        <br>
+    </div>
+</div>
