@@ -1,6 +1,7 @@
-<div class='p-1'>
+<div class="mx-5 h-50">
     <% flash.each do |key, value| %>
         <div class="<%= flash_class(key.to_s) %>" role="alert">
+            <a href="#" class="close link link-danger" data-dismiss="alert" aria-label="close">&times;</a>
             <%= value %>
         </div>
     <% end %>

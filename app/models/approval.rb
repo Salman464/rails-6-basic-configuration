@@ -6,13 +6,12 @@ class Approval < ApplicationRecord
   enum status: {
     started: 0,
     pending: 1,
-    submited: 2,
+    completed: 2,
     approved: 3,
     rejected: 4
   }
-  
-  ransacker :id_to_s do 
+
+  ransacker :id_to_s do
     Arel.sql("regexp_replace(to_char(\"#{table_name}\".\"id\", '9999999'), ' ', '', 'g')")
   end
-  
 end

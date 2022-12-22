@@ -7,13 +7,13 @@ class UsersController < ApplicationController
   before_action :set_approval_application, only: %i[edit update completed check_existing_application]
   before_action :check_existing_application, only: %i[edit verfication completed]
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @user.update(user_params)
       flash.alert = 'Updated user successfully.'
-      @approval_application.update(status: 1) unless ['pending','completed','accepted','rejected'].include?(@approval_application.status)
+      @approval_application.update(status: 1) unless %w[pending completed accepted
+                                                        rejected].include?(@approval_application.status)
       redirect_to verification_user_path
     else
       redirect_to edit_user_path, alert: @user.errors.full_messages.to_sentence
@@ -66,7 +66,8 @@ class UsersController < ApplicationController
 
   def completed
     # thankyou page
-    @approval_application.update(status: 2) unless ['completed','accepted','rejected'].include?(@approval_application.status)
+    @approval_application.update(status: 2) unless %w[completed accepted
+                                                      rejected].include?(@approval_application.status)
   end
 
   private
@@ -91,7 +92,7 @@ class UsersController < ApplicationController
   end
 
   def check_existing_application
-    return unless ['completed','accepted','rejected'].include?(@approval_application.status)
+    return unless %w[completed accepted rejected].include?(@approval_application.status)
 
     flash.alert = 'You have already responded.'
     render 'completed'

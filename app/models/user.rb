@@ -15,10 +15,11 @@ class User < ApplicationRecord
   validates :first_name, :cnic, :contact, :dob, :address, :gender, presence: true, on: :update
   validates :cnic, numericality: { only_integer: true }, on: :update
   validates :cnic, length: { is: 13 }, on: :update
-  validates :cnic, :email, uniqueness: true, on: :update
+  validates :cnic, uniqueness: true, on: :update
+  validates :email, uniqueness: true
   validates :contact, phone: true, on: :update
   validate :must_be_valid_date, on: :update
-  validates_presence_of :profile_picture, :cnic_picture, :dob_file, :domicile_file
+  validates_presence_of :profile_picture, :cnic_picture, :dob_file, :domicile_file, on: :update
 
   def must_be_valid_date
     if dob.nil?

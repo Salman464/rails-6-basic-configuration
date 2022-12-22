@@ -21,4 +21,10 @@ Rails.application.routes.draw do
       get 'completed'
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :users, only: %i[index new create]
+    end
+  end
 end
