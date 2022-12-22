@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user
@@ -6,13 +8,12 @@ class UsersController < ApplicationController
   before_action :check_existing_application, only: %i[edit verfication completed]
 
   def edit
-    @approval_application.update(status: 0)
   end
 
   def update
     if @user.update(user_params)
       flash.alert = 'Updated user successfully.'
-      @approval_application.update(status: 1)
+      @approval_application.update(status: 1) unless ['pending','completed','accepted','rejected'].include?(@approval_application.status)
       redirect_to verification_user_path
     else
       redirect_to edit_user_path, alert: @user.errors.full_messages.to_sentence
@@ -33,11 +34,10 @@ class UsersController < ApplicationController
     if params[:entry_email_token].to_i == @user.email_verification_token
       @user.update(email_verified: true)
       flash.alert = 'Email verified successfully.'
-      redirect_back(fallback_location: verification_user_path)
     else
       flash.alert = 'Incorrect verification code!.'
-      redirect_back(fallback_location: verification_user_path)
     end
+    redirect_back(fallback_location: verification_user_path)
   end
 
   def send_number_verification_token
@@ -54,11 +54,10 @@ class UsersController < ApplicationController
     if params[:entry_number_token].to_i == @user.contact_verification_token
       @user.update(number_verified: true)
       flash.alert = 'Phone number verified successfully.'
-      redirect_back(fallback_location: verification_user_path)
     else
       flash.alert = 'Incorrect verification code!.'
-      redirect_back(fallback_location: verification_user_path)
     end
+    redirect_back(fallback_location: verification_user_path)
   end
 
   def verification
@@ -67,7 +66,7 @@ class UsersController < ApplicationController
 
   def completed
     # thankyou page
-    @approval_application.update(status: 2)
+    @approval_application.update(status: 2) unless ['completed','accepted','rejected'].include?(@approval_application.status)
   end
 
   private
@@ -87,10 +86,12 @@ class UsersController < ApplicationController
 
   def set_approval_application
     @approval_application = Approval.where(user_id: current_user.id).first_or_initialize(status: 0)
+    @approval_application.save
+    @approval_application
   end
 
   def check_existing_application
-    return unless @approval_application.status == 'completed'
+    return unless ['completed','accepted','rejected'].include?(@approval_application.status)
 
     flash.alert = 'You have already responded.'
     render 'completed'

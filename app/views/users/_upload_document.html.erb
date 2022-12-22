@@ -1,14 +1,19 @@
 <div class="">
     <h3>Please provide these document</h3>
-    <div class="m-5">    
+    <div class="m-5">   
+        
         <div class='row'>
             <div class="col-sm-12 col-md-2 p-2">
                 <%= f.label :profile_picture,'Profile picture' %><br>
             </div>
             <div class="col-sm-12 col-md-6 p-2">
                 <%= f.file_field :profile_picture, class:'form-control' %>
+                <% if @user.profile_picture.attached? %>
+                attached: <%= link_to @user.profile_picture.blob.filename, @user.profile_picture.blob, target: "_blank" %>
+                <% end %>
             </div>
         </div>
+       
 
         <div class='row'>
             <div class="col-sm-12 col-md-2 p-2">
@@ -16,6 +21,9 @@
             </div>
             <div class="col-sm-12 col-md-6 p-2">
                 <%= f.file_field :cnic_picture, class:'form-control' %>
+                <% if @user.cnic_picture.attached? %>
+                attached: <%= link_to @user.cnic_picture.blob.filename, @user.cnic_picture.blob, target: "_blank" %>
+                <% end %>
             </div>
         </div>
 
@@ -25,6 +33,9 @@
             </div>
             <div class="col-sm-12 col-md-6 p-2">
                 <%= f.file_field :dob_file, class:'form-control' %>
+                <% if @user.dob_file.attached? %>
+                attached: <%= link_to @user.dob_file.blob.filename, @user.dob_file.blob, target: "_blank" %>
+                <% end %>
             </div>
         </div>
 
@@ -34,6 +45,9 @@
             </div>
             <div class="col-sm-12 col-md-6 p-2">
                 <%= f.file_field :domicile_file, class:'form-control' %>
+                <% if @user.domicile_file.attached? %>
+                attached: <%= link_to @user.domicile_file.blob.filename, @user.domicile_file.blob, target: "_blank" %>
+                <% end %>
             </div>
         </div>
     </div>       

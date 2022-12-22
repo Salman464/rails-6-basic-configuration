@@ -5,10 +5,13 @@
     <div class="card mt-2">
     <h3 class="card-header">Approval applications</h3>
         <div class="d-flex justify-content-end m-1">
-            <%= search_form_for @q, url: approvals_path do |form| %>
+            <%= search_form_for @q,url: approvals_path do |form| %>
+                <%#= form.search_field :status_eq, placeholder:'Search...', id:'bt-border-field' %>
+
+                <%= form.search_field :user_email_or_user_gender_or_user_first_name_or_user_last_name_or_user_cnic_or_user_address_or_user_contact_or_id_to_s_cont, placeholder:'Search...', id:'bt-border-field' %>
+                
                 <%= icon('fa-solid', 'search',class:'link-info')%>
-                <%= form.text_field :status_cont, placeholder:'Search...', id:'bt-border-field' %>
-                <%= form.submit "Search",class:' btn btn-sm btn-info' %>
+                <% form.submit "Search",class:' btn btn-sm btn-info' %>
             <% end %>
         </div>
         <table class="table table-striped" id="table">

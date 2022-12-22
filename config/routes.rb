@@ -1,6 +1,7 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
-  resources :approvals, only: [ :index, :show ] do
+Rails.application.routes.draw do
+  resources :approvals, only: %i[index show] do
     member do
       put 'approve'
       put 'reject'
@@ -9,7 +10,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     sessions: 'users/sessions'
   }
-  
+
   resources :users do
     member do
       get 'send_verification_token'
@@ -19,7 +20,5 @@ Rails.application.routes.draw do
       get 'verification'
       get 'completed'
     end
-  end 
-
-  
+  end
 end

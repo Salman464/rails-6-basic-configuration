@@ -1,12 +1,14 @@
 <%= render 'navbar' %>
 <%= render 'layouts/alerts' %>
 <div class="container">
-
+<div class="alert alert-primary" role="alert">
+  A simple primary alert—check it out!
+</div>
     <div class=form>
         <%= form_with(model: @user, local: true) do |f| %>
 
         <!-- Basic information page -->
-        <div id="page-1" class="">
+        <div id="page-1" class="my-5">
             
             <%= render 'form', f: f %>
             <div class="d-flex justify-content-end" id='nav_btns'>
