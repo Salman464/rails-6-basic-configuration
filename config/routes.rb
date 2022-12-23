@@ -1,6 +1,5 @@
-# frozen_string_literal: true
-
 Rails.application.routes.draw do
+  #root to: "users/sessions#new"
   resources :approvals, only: %i[index show] do
     member do
       put 'approve'

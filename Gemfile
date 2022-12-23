@@ -32,6 +32,7 @@ gem 'twilio-ruby'
 # Use Active Storage variant
 gem 'ransack'
 gem 'rubocop'
+gem 'sidekiq'
 # gem 'image_processing', '~> 1.2'
 # font awesome for icons
 gem 'font-awesome-sass', '~> 6.2.1'

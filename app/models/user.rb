@@ -16,7 +16,6 @@ class User < ApplicationRecord
   validates :cnic, numericality: { only_integer: true }, on: :update
   validates :cnic, length: { is: 13 }, on: :update
   validates :cnic, uniqueness: true, on: :update
-  validates :email, uniqueness: true
   validates :contact, phone: true, on: :update
   validate :must_be_valid_date, on: :update
   validates_presence_of :profile_picture, :cnic_picture, :dob_file, :domicile_file, on: :update
@@ -28,7 +27,7 @@ class User < ApplicationRecord
     end
 
     if dob >= Date.today
-      errors.add(:dob, 'Invalid date of birth!(must be less than today)')
+      errors.add(:dob, 'Invalid date of birth!(can not be in future)')
       return false
     end
     true
