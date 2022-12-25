@@ -10,10 +10,10 @@ class TokenClient
   end
 
   def set_email_token(user)
-    user.update(email_verification_token: @token)
+    user.update(email_verification_token: @token, email_token_expires_at: Time.now+1.minutes)
   end
 
   def set_contact_token(user)
-    user.update(contact_verification_token: @token)
+    user.update(contact_verification_token: @token, contact_token_expires_at: Time.now+1.minutes)
   end
 end

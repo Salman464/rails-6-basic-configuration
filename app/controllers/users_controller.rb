@@ -4,14 +4,15 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user
   before_action :set_tokenclient, except: %i[edit update]
-  before_action :set_approval_application, only: %i[edit update completed check_existing_application]
-  before_action :check_existing_application, only: %i[edit verfication completed]
+  before_action :set_approval_application, only: %i[edit update verification completed check_existing_application]
+  before_action :check_existing_application, only: %i[edit verification completed]
 
-  def edit; end
+  def edit
+  end
 
   def update
     if @user.update(user_params)
-      flash.alert = 'Updated user successfully.'
+      flash[:success] = 'Updated user successfully.'
       @approval_application.update(status: 1) unless %w[pending completed accepted
                                                         rejected].include?(@approval_application.status)
       redirect_to verification_user_path
@@ -26,41 +27,42 @@ class UsersController < ApplicationController
     return unless VerificationMailer.verify_email(@user, @token).deliver_now
 
     @tokenclient.set_email_token(@user)
-    flash.alert = 'Verfication code sent successfully.'
+    flash[:success] = 'Verfication code sent successfully.'
     redirect_back(fallback_location: verification_user_path)
   end
 
   def verify_token
-    if params[:entry_email_token].to_i == @user.email_verification_token
+    if params[:entry_email_token] == @user.email_verification_token.to_s and @user.email_token_expires_at >= Time.now
       @user.update(email_verified: true)
-      flash.alert = 'Email verified successfully.'
+      flash[:success] = 'Email verified successfully.'
     else
-      flash.alert = 'Incorrect verification code!.'
+      flash.alert = 'Incorrect or expired verification code!.'
     end
     redirect_back(fallback_location: verification_user_path)
   end
 
   def send_number_verification_token
     @token = @tokenclient.generate_token
-    # if TwilioClient.new.send_text(@user,@token)
-    return unless true
+    return unless TwilioClient.new.send_text(@user,@token)
+    #return unless true
 
     @tokenclient.set_contact_token(@user)
-    flash.alert = 'Verfication code sent successfully.'
+    flash[:success] = 'Verfication code sent successfully.'
     redirect_back(fallback_location: verification_user_path)
   end
 
   def verify_number_token
-    if params[:entry_number_token].to_i == @user.contact_verification_token
+    if params[:entry_number_token] == @user.contact_verification_token.to_s and @user.contact_token_expires_at >= Time.now
       @user.update(number_verified: true)
-      flash.alert = 'Phone number verified successfully.'
+      flash[:success] = 'Phone number verified successfully.'
     else
-      flash.alert = 'Incorrect verification code!.'
+      flash.alert = 'Incorrect or expired verification code!.'
     end
     redirect_back(fallback_location: verification_user_path)
   end
 
   def verification
+    byebug
     # verfication page
   end
 
@@ -95,6 +97,6 @@ class UsersController < ApplicationController
     return unless %w[completed accepted rejected].include?(@approval_application.status)
 
     flash.alert = 'You have already responded.'
-    render 'completed'
+    render :completed
   end
 end

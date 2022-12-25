@@ -19,18 +19,37 @@ class User < ApplicationRecord
   validates :contact, phone: true, on: :update
   validate :must_be_valid_date, on: :update
   validates_presence_of :profile_picture, :cnic_picture, :dob_file, :domicile_file, on: :update
+  validate :validate_files_content_type, on: :update
 
   def must_be_valid_date
     if dob.nil?
       errors.add(:dob, 'Date of Birth was not provided!')
-      return false
-    end
-
-    if dob >= Date.today
+    elsif dob >= Date.today
       errors.add(:dob, 'Invalid date of birth!(can not be in future)')
-      return false
     end
-    true
+  end
+
+  def validate_files_content_type
+    validate_img_content_type(profile_picture)
+    validate_img_content_type(cnic_picture)
+    validate_file_content_type(dob_file)
+    validate_file_content_type(domicile_file)
+  end
+
+  def validate_img_content_type(element)
+    return unless element.attached?
+    allowed_content_types = ['image/png', 'image/jpeg', 'image/jpg','image/gif']
+    unless allowed_content_types.include?(element.content_type)
+      errors.add(:profile_and_cnic_picture, 'must be a PNG, JPEG, GIF, or JPG image')
+    end
+  end
+
+  def validate_file_content_type(element)
+    return unless element.attached?
+    allowed_content_types = ['application/pdf','application/msword']
+    unless allowed_content_types.include?(element.content_type)
+      errors.add(:dob_and_domicile_file, 'must be a PDF, DOC or DOCX file')
+    end
   end
 
   enum role:

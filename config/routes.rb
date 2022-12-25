@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  #root to: "users/sessions#new"
+  
+  devise_scope :user do
+    root to: 'devise/sessions#new'
+  end
+
   resources :approvals, only: %i[index show] do
     member do
       put 'approve'

@@ -1,8 +1,8 @@
-<div class="mx-5 h-50">
+<div class="mx-5 pt-2">
     <% flash.each do |key, value| %>
-        <div class="<%= flash_class(key.to_s) %>" role="alert">
-            <a href="#" class="close link link-danger" data-dismiss="alert" aria-label="close">&times;</a>
+        <div class="alert <%= flash_class(key.to_s) %> alert-dismissible" role="alert">
             <%= value %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <% end %>
 </div>
