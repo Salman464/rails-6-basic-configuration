@@ -25,14 +25,15 @@ class ApprovalsController < ApplicationController
   end
 
   def filter
-    filterd = params[:q]
-    @q = Approval.select('users.first_name, users.last_name, users.contact, users.dob, users.email, users.cnic, users.address, users.gender, approvals.id as id, approvals.status, approvals.updated_at').joins(:user).ransack(status_eq:filterd[:status].to_i,gender_eq:filterd[:gender])
-
-    @q = Approval.select('users.first_name, users.last_name, users.contact, users.dob, users.email, users.cnic, users.address, users.gender, approvals.id as id, approvals.status, approvals.updated_at').joins(:user).ransack(params[:q])
+    filterd = params[:approval]
+    
+    criteria = { status_eq: filterd[:status], user_gender_eq: filterd[:gender], user_dob_gteq: Date.today.years_ago(filterd[:to].to_i+1), user_dob_lteq: Date.today.years_ago(filterd[:from].to_i) }.reject { |_, v| v.blank? }
+    @q = Approval.select('users.first_name, users.last_name, users.contact, users.dob, users.email, users.cnic, users.address, users.gender, approvals.id as id, approvals.status, approvals.updated_at').joins(:user).ransack(criteria)
 
     @approvals = @q.result(distinct: true).where('status != 0').order(id: :desc).page(params[:page]).per(9)
-  
-    render json: @approvals
-    
+    render 'index'
   end
+
+
+
 end

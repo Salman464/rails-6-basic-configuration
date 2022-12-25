@@ -7,7 +7,7 @@
             <hr>
             <ul class="nav">
                 <li>  
-                  <%= form_with(model: @q, url: filter_approvals_path, local: true, method: :get) do |f| %>
+                  <%= form_with(model: @approvals, url: filter_approvals_path, local: true, method: :get) do |f| %>
                     <%= f.label :age, "Age range:" %>
                     <br>
                     <div class="row mt-1">
