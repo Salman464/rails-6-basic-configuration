@@ -1,49 +1,100 @@
 <%= render 'users/navbar' %>
 <%= render 'layouts/alerts' %>
-<div class="container">
-    
-    <div class="card mt-2">
-    <h3 class="card-header">Approval applications</h3>
-        <div class="d-flex justify-content-end m-1">
-            <%= search_form_for @q,url: approvals_path do |form| %>
-                <%#= form.search_field :status_eq, placeholder:'Search...', id:'bt-border-field' %>
-
-                <%= form.search_field :user_email_or_user_gender_or_user_first_name_or_user_last_name_or_user_cnic_or_user_address_or_user_contact_or_id_to_s_cont, placeholder:'Search...', id:'bt-border-field' %>
-                
-                <%= icon('fa-solid', 'search',class:'link-info')%>
-                <% form.submit "Search",class:' btn btn-sm btn-info' %>
-            <% end %>
+<div class="row m-2">
+    <div class="col-2 collapse" id="sidebar">
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light">
+            <h4>Filter</h4>
+            <hr>
+            <ul class="nav">
+                <li>  
+                  <%= form_with(model: @q, url: filter_approvals_path, local: true, method: :get) do |f| %>
+                    <%= f.label :age, "Age range:" %>
+                    <br>
+                    <div class="row mt-1">
+                      <div class='col-3'><%= f.label :from, 'From:' %></div>
+                      <div class='col'><%= f.text_field :from, value:"0", class:'form-control form-control-sm' %></div>
+                    </div>
+                    <div class="row mt-1">
+                      <div class='col-3'><%= f.label :to, 'To:' %></div>
+                      <div class='col'><%= f.text_field :to, value:"100", class:'form-control form-control-sm' %></div>
+                    </div>
+                    <hr>
+                    <%= f.label :status, "Application status:" %>
+                    <br>
+                    <%= f.radio_button :status, "", class:'form-check-input', checked: true %> All
+                    <br>
+                    <%= f.radio_button :status, "1", class:'form-check-input' %> Pending
+                    <br>
+                    <%= f.radio_button :status, "2", class:'form-check-input' %> Completed
+                    <br>
+                    <%= f.radio_button :status, "3", class:'form-check-input' %> Approved
+                    <br>
+                    <%= f.radio_button :status, "4", class:'form-check-input' %> Rejected
+                    <hr>
+                    <%= f.label :gender, "Gender:" %>
+                    <br>
+                    <%= f.radio_button :gender, "", class:'form-check-input', checked: true %> All
+                    <br>
+                    <%= f.radio_button :gender, "Male", class:'form-check-input' %> Male&nbsp;
+                    <%= f.radio_button :gender, "Female", class:'form-check-input' %> Female
+                    <br>
+                    <%= f.radio_button :gender, "Others", class:'form-check-input' %> Others
+                    <hr>
+                      <div class="d-flex justify-content-end"><%= f.submit "Search", class:'btn btn-sm btn-success' %></div>
+                  <% end %>
+                </li>
+            </ul>
         </div>
-        <table class="table table-striped" id="table">
-            <thead id="tb-header">
-                <tr>
-                <th>Application#</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Status</th>
-                <th>Action</th>
-                </tr>
-            </thead>
+    </div>
+    <div class="col">
+        <div class="card">
+        <h3 class="card-header">Approval applications</h3>
+            <div class="row m-1">
+              <div class="col-6">
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#sidebar"><%= icon('fa-solid','filter') %>Filter</button>
+              </div>
+              <div class="d-flex justify-content-end col-6">
+                  <%= search_form_for @q,url: approvals_path do |form| %>
+                      <%#= form.search_field :status_eq, placeholder:'Search...', id:'bt-border-field' %>
 
-            <tbody>
-                
-                <% @approvals.each do |approval| %>
-                <tr>
-                    <td><%= approval.id %></td>
-                    <td><%= approval.first_name+' '+approval.last_name %></td>
-                    <td><%= approval.email %></td>
-                    <td><%= approval.gender %></td>
-                    <td><span id="tb-status" class = <%= get_status_class(approval.status) %> ><%= approval.status %><span></td>
-                    <td><%= link_to 'view', approval ,class:'link-info'%></td>
-                </tr>
-                <% end %>
-            </tbody>
-            
-        </table>
-            <div class="d-flex justify-content-center">
-            <%= paginate @approvals %>
+                      <%= form.search_field :user_email_or_user_gender_or_user_first_name_or_user_last_name_or_user_cnic_or_user_address_or_user_contact_or_id_to_s_cont, placeholder:'Search...', id:'bt-border-field' %>
+                      
+                      <%= icon('fa-solid', 'search',class:'link-info')%>
+                      <% form.submit "Search",class:' btn btn-sm btn-info' %>
+                  <% end %>
+              </div>
             </div>
-        <br>
+            <table class="table table-striped" id="table">
+                <thead id="tb-header">
+                    <tr>
+                    <th>Application#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    
+                    <% @approvals.each do |approval| %>
+                    <tr>
+                        <td><%= approval.id %></td>
+                        <td><%= approval.first_name+' '+approval.last_name %></td>
+                        <td><%= approval.email %></td>
+                        <td><%= approval.gender %></td>
+                        <td><span id="tb-status" class = <%= get_status_class(approval.status) %> ><%= approval.status %><span></td>
+                        <td><%= link_to 'view', approval ,class:'link-info'%></td>
+                    </tr>
+                    <% end %>
+                </tbody>
+                
+            </table>
+                <div class="d-flex justify-content-center">
+                <%= paginate @approvals %>
+                </div>
+            <br>
+        </div>
     </div>
 </div>

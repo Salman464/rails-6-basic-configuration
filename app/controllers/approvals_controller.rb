@@ -23,4 +23,16 @@ class ApprovalsController < ApplicationController
     @approval = Approval.find(params[:id])
     redirect_to approval_path if @approval.update(status: 4)
   end
+
+  def filter
+    filterd = params[:q]
+    @q = Approval.select('users.first_name, users.last_name, users.contact, users.dob, users.email, users.cnic, users.address, users.gender, approvals.id as id, approvals.status, approvals.updated_at').joins(:user).ransack(status_eq:filterd[:status].to_i,gender_eq:filterd[:gender])
+
+    @q = Approval.select('users.first_name, users.last_name, users.contact, users.dob, users.email, users.cnic, users.address, users.gender, approvals.id as id, approvals.status, approvals.updated_at').joins(:user).ransack(params[:q])
+
+    @approvals = @q.result(distinct: true).where('status != 0').order(id: :desc).page(params[:page]).per(9)
+  
+    render json: @approvals
+    
+  end
 end

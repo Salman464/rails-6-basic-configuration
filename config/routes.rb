@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   resources :approvals, only: %i[index show] do
     member do
       put 'approve'
-      put 'reject'
+      put 'reject' 
+    end
+    collection do
+      get 'filter'
     end
   end
   devise_for :users, controllers: {
