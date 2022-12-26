@@ -46,7 +46,7 @@ class User < ApplicationRecord
 
   def validate_file_content_type(element)
     return unless element.attached?
-    allowed_content_types = ['application/pdf','application/msword','application/vnd.oasis.opendocument.text']
+    allowed_content_types = ['application/pdf', 'application/msword','application/vnd.oasis.opendocument.text', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/x-ole-storage']
     unless allowed_content_types.include?(element.content_type)
       errors.add(:birth_certificate_and_domicile_file, 'must be a PDF, DOC, ODT or DOCX file')
     end

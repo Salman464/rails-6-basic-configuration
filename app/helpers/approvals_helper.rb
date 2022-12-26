@@ -7,7 +7,7 @@ module ApprovalsHelper
       'bg-info bg-gradient'
     when 'pending'
       'bg-warning bg-gradient'
-    when 'completed'
+    when 'submitted'
       'bg-secondary bg-gradient'
     when 'approved'
       'bg-success bg-gradient'

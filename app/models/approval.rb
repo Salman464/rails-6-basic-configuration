@@ -6,7 +6,7 @@ class Approval < ApplicationRecord
   enum status: {
     started: 0,
     pending: 1,
-    completed: 2,
+    submitted: 2,
     approved: 3,
     rejected: 4
   }

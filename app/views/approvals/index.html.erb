@@ -81,7 +81,7 @@
                     <% @approvals.each do |approval| %>
                     <tr>
                         <td><%= approval.id %></td>
-                        <td><%= approval.first_name+' '+approval.last_name %></td>
+                        <td><%= approval.first_name.to_s+' '+approval.last_name.to_s %></td>
                         <td><%= approval.email %></td>
                         <td><%= approval.gender %></td>
                         <td><span id="tb-status" class = <%= get_status_class(approval.status) %> ><%= approval.status %><span></td>

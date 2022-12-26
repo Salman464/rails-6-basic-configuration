@@ -62,13 +62,12 @@ class UsersController < ApplicationController
   end
 
   def verification
-    byebug
     # verfication page
   end
 
   def completed
     # thankyou page
-    @approval_application.update(status: 2) unless %w[completed accepted
+    @approval_application.update(status: 2) unless %w[submitted accepted
                                                       rejected].include?(@approval_application.status)
   end
 
@@ -94,7 +93,7 @@ class UsersController < ApplicationController
   end
 
   def check_existing_application
-    return unless %w[completed accepted rejected].include?(@approval_application.status)
+    return unless %w[submitted accepted rejected].include?(@approval_application.status)
 
     flash.alert = 'You have already responded.'
     render :completed

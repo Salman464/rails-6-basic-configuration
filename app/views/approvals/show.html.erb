@@ -23,7 +23,7 @@
             <strong>Name:</strong>
         </div>
         <div class="col-md-4 col-sm-5" id="bt-border-field">
-            <%= @approval.first_name+' '+@approval.last_name %>
+            <%= @approval.first_name.to_s+' '+@approval.last_name.to_s %>
         </div>
     </div>
 
@@ -47,6 +47,15 @@
 
     <div class="row px-5">
         <div class="col-md-4 col-sm-5">
+            <strong>gender:</strong>
+        </div>
+        <div class="col-md-4 col-sm-5" id="bt-border-field">
+            <%= @approval.gender %>
+        </div>
+    </div>
+
+    <div class="row px-5">
+        <div class="col-md-4 col-sm-5">
             <strong>CNIC:</strong>
         </div>
         <div class="col-md-4 col-sm-5" id="bt-border-field">
@@ -59,7 +68,7 @@
             <strong>Date of birth:</strong>
         </div>
         <div class="col-md-4 col-sm-5" id="bt-border-field">
-            <%= format_date @approval.dob %>
+            <%= @approval.dob.nil? ? '' : format_date(@approval.dob) %>
         </div>
     </div>
 
@@ -68,7 +77,7 @@
             <strong>Age:</strong>
         </div>
         <div class="col-md-4 col-sm-5" id="bt-border-field">
-            <%= get_age(@approval.dob) %>
+            <%= @approval.dob.nil? ? '' : get_age(@approval.dob) %>
         </div>
     </div>
 
@@ -77,7 +86,7 @@
             <strong>Address:</strong>
         </div>
         <div class="col-md-4 col-sm-5" id="bt-border-field">
-            <%= @approval.email %>
+            <%= @approval.address %>
         </div>
     </div>
 
