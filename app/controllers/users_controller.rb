@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_user
+  before_action :authenticate_user!, except: [:create_session]
+  before_action :set_user, except: [:create_session]
   before_action :set_tokenclient, except: %i[edit update]
   before_action :set_approval_application, only: %i[edit update verification completed check_existing_application]
   before_action :check_existing_application, only: %i[edit verification completed]
@@ -71,6 +71,22 @@ class UsersController < ApplicationController
                                                       rejected].include?(@approval_application.status)
   end
 
+  def create_session
+    @user = User.find(params[:id])
+    if !@user.nil?
+      if JWT.decode(params[:token],"#{@user.id}our secret key")[0] == @user.email and @user.jwt_secret_expires_at.advance(days:3) >= Time.now
+        sign_in(@user)
+        redirect_to edit_user_path
+      else
+        err = 'Invalid token or your link has expired...'
+      render plain: err
+      end
+    else
+      err = 'Invalid link: an error occurred during the search of record...'
+      render plain: err
+    end
+  end
+
   private
 
   def user_params
@@ -98,4 +114,5 @@ class UsersController < ApplicationController
     flash.alert = 'You have already responded.'
     render :completed
   end
+
 end

@@ -33,6 +33,7 @@ gem 'twilio-ruby'
 gem 'ransack'
 gem 'rubocop'
 gem 'sidekiq'
+gem 'jwt'
 # gem 'image_processing', '~> 1.2'
 # font awesome for icons
 gem 'font-awesome-sass', '~> 6.2.1'

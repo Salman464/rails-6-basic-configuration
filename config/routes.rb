@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       post 'verify_number_token'
       get 'verification'
       get 'completed'
+      get 'create_session'
     end
   end
 

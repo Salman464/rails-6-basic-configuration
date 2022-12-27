@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_24_183639) do
+ActiveRecord::Schema.define(version: 2022_12_27_081551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,8 @@ ActiveRecord::Schema.define(version: 2022_12_24_183639) do
     t.integer "role", default: 0
     t.datetime "email_token_expires_at", default: "2022-12-24 18:43:34"
     t.datetime "contact_token_expires_at", default: "2022-12-24 18:43:34"
+    t.string "jwt_secret"
+    t.datetime "jwt_secret_expires_at", default: "2022-12-27 08:17:28"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

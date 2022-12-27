@@ -297,6 +297,7 @@ DEPENDENCIES
   devise
   font-awesome-sass (~> 6.2.1)
   jbuilder (~> 2.7)
+  jwt
   kaminari
   letter_opener
   listen (~> 3.2)

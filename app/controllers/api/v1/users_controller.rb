@@ -10,7 +10,7 @@ class Api::V1::UsersController < ActionController::API
     @csv_client = CsvClient.new(@upload_file)
     @csv_client.populate_database
     
-    render json: {status:'success'}
+    render json: {status:'Background job is creating users...'}
   end
 
   private
