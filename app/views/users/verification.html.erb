@@ -2,17 +2,16 @@
 <%= render 'layouts/alerts' %>
 <!-- Verify email and phone page -->
 
-<div class="container">
-    <div id="page-3">
+
+    <div class="card m-5 p-5 bg-light">
         <%= render 'verify_email_phone', user: @user %>
         <% if (@user.number_verified and @user.email_verified) %>
-        <div class="row" id='nav_btns'>
+        <div class="row mt-5">
             <div class="col-6">
             </div>
             <div class="col-6 d-flex justify-content-end">
-                <%=link_to "Complete", completed_user_path, class:'btn btn-primary'%>
+                <%=link_to "Complete Profile", completed_user_path, class:'btn btn-primary'%>
             </div>
         </div>
         <% end %>
     </div>
-</div>

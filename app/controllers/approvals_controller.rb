@@ -6,7 +6,7 @@ class ApprovalsController < ApplicationController
   def index
     @q = Approval.select('users.first_name, users.last_name, users.contact, users.dob, users.email, users.cnic, users.address, users.gender, approvals.id as id, approvals.status, approvals.updated_at').joins(:user).ransack(params[:q])
 
-    @approvals = @q.result(distinct: true).where('status != -1').order(id: :desc).page(params[:page]).per(9)
+    @approvals = @q.result(distinct: true).order(id: :desc).page(params[:page]).per(9)
     # render json: @approvals
   end
 
@@ -30,7 +30,7 @@ class ApprovalsController < ApplicationController
     criteria = { status_eq: filterd[:status], user_gender_eq: filterd[:gender], user_dob_gteq: Date.today.years_ago(filterd[:to].to_i+1), user_dob_lteq: Date.today.years_ago(filterd[:from].to_i) }.reject { |_, v| v.blank? }
     @q = Approval.select('users.first_name, users.last_name, users.contact, users.dob, users.email, users.cnic, users.address, users.gender, approvals.id as id, approvals.status, approvals.updated_at').joins(:user).ransack(criteria)
 
-    @approvals = @q.result(distinct: true).where('status != 0').order(id: :desc).page(params[:page]).per(9)
+    @approvals = @q.result(distinct: true).order(id: :desc).page(params[:page]).per(9)
     render 'index'
   end
 

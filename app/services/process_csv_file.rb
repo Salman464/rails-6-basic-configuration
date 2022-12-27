@@ -1,5 +1,5 @@
 require 'csv'
-class CsvClient
+class ProcessCsvFile
 
   def initialize(input)
     file = File.open(input)

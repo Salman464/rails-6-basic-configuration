@@ -5,20 +5,20 @@
         <%= form_with(model: @user, local: true) do |f| %>
 
         <!-- Basic information page -->
-        <div id="page-1" class="my-5">
+        <div id="page-1" class="card mt-4 p-5 bg-light">
             
             <%= render 'form', f: f %>
-            <div class="d-flex justify-content-end" id='nav_btns'>
-                <a id="next_btn" class="btn btn-primary float-right" onclick="goNext()">Next page</a>
+            <div class="d-flex justify-content-end mt-3">
+                <a id="next_btn" class="btn btn-primary" onclick="goNext()">Next page</a>
             </div>
         </div>
 
         <!-- Upload document page -->
-        <div id="page-2" class="d-none">
+        <div id="page-2" class="d-none card mt-4 p-5 bg-light">
             <%= render 'upload_document',f: f %>
 
-            <div class="row" id='nav_btns'>
-                <div class="pull-left col-6">
+            <div class="row">
+                <div class="col-6">
                     <a id="previous_btn" class="btn btn-primary" onclick="goBack()">Previous page</a>
                 </div>
                 <div class="col-6 d-flex justify-content-end">
