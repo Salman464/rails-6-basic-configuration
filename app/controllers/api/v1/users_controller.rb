@@ -1,21 +1,16 @@
 class Api::V1::UsersController < ActionController::API
-  def index
-    render json: { msg: 'Hello to api' }
-  end
+  before_action :validate_content_type
 
   def create
-    @upload_file = permit_csv[:input]
-    return redirect api_v1_users_path, status: :unprocessable_entity unless @upload_file.content_type == 'text/csv'
-
-    @csv_client = CsvClient.new(@upload_file)
-    @csv_client.populate_database
-    
-    render json: {status:'Background job is creating users...'}
+    if validate_content_type
+      csv_client = CsvClient.new(params[:csv_file]).execute
+      render json: {status:'Background job is creating users...'}
+    else
+      render json: {status: 'file content type not supported!'}
+    end    
   end
-
   private
-
-  def permit_csv
-    params.require(:user).permit(:input)
-  end
+    def validate_content_type
+      params[:csv_file].content_type == 'text/csv'
+    end
 end

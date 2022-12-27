@@ -75,6 +75,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if !@user.nil?
       if JWT.decode(params[:token],"#{@user.id}our secret key")[0] == @user.email and @user.jwt_secret_expires_at.advance(days:3) >= Time.now
+        flash[:success]='Signed in through email.'
         sign_in(@user)
         redirect_to edit_user_path
       else

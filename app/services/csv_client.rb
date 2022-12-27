@@ -6,10 +6,8 @@ class CsvClient
     @data = CSV.parse(file)
   end
 
-  def populate_database
-    @data.each do |row|
-      CreatUsersFromCsvJob.perform_async(row)
-    end
+  def execute
+    CreatUsersFromCsvJob.perform_async(@data)
   end
 
 end

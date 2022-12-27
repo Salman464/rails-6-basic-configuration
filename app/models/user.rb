@@ -21,6 +21,12 @@ class User < ApplicationRecord
   validates_presence_of :profile_picture, :cnic_picture, :dob_file, :domicile_file, on: :update
   validate :validate_files_content_type, on: :update
 
+  after_create :notify_user
+
+  def notify_user
+    VerificationMailer.notify_to_complete_profile(self, self.password).deliver_now
+  end
+
   def must_be_valid_date
     if dob.nil?
       errors.add(:dob, 'Date of Birth was not provided!')

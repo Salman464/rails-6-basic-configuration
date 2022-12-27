@@ -1,3 +1,4 @@
 <p>Hello! <%= @user.first_name.to_s %></p>
 <p>Please complete your profile by clicking </p>
 <%= link_to "here", create_session_user_url(@user, params: {token:@token}) %>
+<p>You can sign in directly by using the following password <%= @pass %></p>
