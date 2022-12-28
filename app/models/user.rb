@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_one :approval
+  has_one :approval,  dependent: :destroy
   has_one_attached :profile_picture
   has_one_attached :cnic_picture
   has_one_attached :dob_file

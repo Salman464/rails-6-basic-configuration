@@ -19,10 +19,10 @@ Rails.application.routes.draw do
 
   resources :users do
     member do
-      get 'send_verification_token'
-      get 'send_number_verification_token'
-      post 'verify_token'
-      post 'verify_number_token'
+      get 'send_email_verification'
+      get 'send_phone_verification'
+      post 'verify_email_token'
+      post 'verify_phone_token'
       get 'verification'
       get 'completed'
       get 'create_session'

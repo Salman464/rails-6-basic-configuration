@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def send_verification_token
+  def send_email_verification
     @token = @tokenclient.generate_token
 
     return unless VerificationMailer.verify_email(@user, @token).deliver_now
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     redirect_back(fallback_location: verification_user_path)
   end
 
-  def verify_token
+  def verify_email_token
     if params[:entry_email_token] == @user.email_verification_token.to_s and @user.email_token_expires_at >= Time.now
       @user.update(email_verified: true)
       flash[:success] = 'Email verified successfully.'
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     redirect_back(fallback_location: verification_user_path)
   end
 
-  def send_number_verification_token
+  def send_phone_verification
     @token = @tokenclient.generate_token
     return unless TwilioClient.new.send_text(@user,@token)
     #return unless true
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
     redirect_back(fallback_location: verification_user_path)
   end
 
-  def verify_number_token
+  def verify_phone_token
     if params[:entry_number_token] == @user.contact_verification_token.to_s and @user.contact_token_expires_at >= Time.now
       @user.update(number_verified: true)
       flash[:success] = 'Phone number verified successfully.'

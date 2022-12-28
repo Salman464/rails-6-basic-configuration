@@ -4,7 +4,7 @@ class TwilioClient
   attr_reader :client
 
   def initialize
-    @client = Twilio::REST::Client.new 'AC676d05fc0c6fa39fa329706c688a53ed', 'add40387baafa4ea6bafe69a0ffba850'
+    @client = Twilio::REST::Client.new 'AC676d05fc0c6fa39fa329706c688a53ed', '22f0fb73b30f173d6630385be589a4ee'
   end
 
   def send_text(user, token)
